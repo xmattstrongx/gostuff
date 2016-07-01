@@ -1,0 +1,6 @@
+version: '2'
+services:
+  view:
+    image: view
+    ports:
+      - "8004:8004"

@@ -1,0 +1,6 @@
+version: '2'
+services:
+  adapter:
+    image: adapter
+    ports:
+      - "8002:8002"

@@ -1,0 +1,6 @@
+version: '2'
+services:
+  view:
+    image: ultidocker_api
+    ports:
+      - "8000:8000"

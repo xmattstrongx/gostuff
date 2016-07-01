@@ -1,0 +1,6 @@
+version: '2'
+services:
+  gateway:
+    image: gateway
+    ports:
+      - "8001:8001"
