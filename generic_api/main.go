@@ -4,14 +4,10 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
-	"os"
-	"strings"
+    "log"
 
-	ll "log"
-
-	kit "forks/kit/sd/etcd"
-
-	"github.com/go-kit/kit/log"
+	kit "github.com/go-kit/kit/sd/etcd" 
+	kitlog "github.com/go-kit/kit/log"
 	"golang.org/x/net/context"
 )
 
@@ -19,28 +15,22 @@ import (
 // This example assumes the user has an instance of etcd installed and running locally on port 2379
 func main() {
 
-	var logger log.Logger
-	{
-		logger = log.NewLogfmtLogger(os.Stdout)
-		logger = log.NewContext(logger).With("ts", log.DefaultTimestampUTC, "caller", log.DefaultCaller)
-	}
-
-	// Creating random number too append to test data
+	// Creating random number too append to assure differentiation of test data keys 
 	rand.Seed(int64(time.Now().Nanosecond()))
-	value := rand.Int()
 
+	value := rand.Int()
 	testData := fmt.Sprintf("foo%d", value)
-	testData2 := fmt.Sprintf("foo%d", value)
+
+	value2 := rand.Int()
+	testData2 := fmt.Sprintf("foo%d", value2)
 
 
 	// Using basic options for NewClient
 	kitClientOptions := kit.ClientOptions{
-		Cert:                    "",
-		Key:                     "",
-		CaCert:                  "",
 		DialTimeout:             (2 * time.Second),
 		DialKeepAline:           (2 * time.Second),
-		HeaderTimeoutPerRequest: (2 * time.Second)}
+		HeaderTimeoutPerRequest: (2 * time.Second),
+	}
 
 	// Instantiate NewClient on localhost port 2379. Change this to whichever port you host etcd from 
 	kitClient, err := kit.NewClient(context.Background(), []string{"http://:2379"}, kitClientOptions)
@@ -52,7 +42,7 @@ func main() {
 	}
 
 	// Instantiate new instance of *Registrar passing in test data
-	registrar := kit.NewRegistrar(kitClient, *data1, log.NewNopLogger())
+	registrar := kit.NewRegistrar(kitClient, *data1, kitlog.NewNopLogger())
 	// Register new test data to etcd
 	registrar.Register()
 
@@ -63,25 +53,21 @@ func main() {
 	}
 
 	// Instantiate new instance of *Registrar passing in test data
-	registrar2 := kit.NewRegistrar(kitClient, *data2, log.NewNopLogger())
+	registrar2 := kit.NewRegistrar(kitClient, *data2, kitlog.NewNopLogger())
 	// Register new test data to etcd
 	registrar2.Register()
 
 	//Retrieve entries from etcd
-	result1, err := kitClient.GetEntries(testData)
+	_, err = kitClient.GetEntries(testData)
 	if err != nil {
-		logger.Log("err", err)
+		fmt.Println(err)
 	}
-	// ll.Println(a)
-	// logger.Log("entries", a)
-	logger.Log("entries", strings.Join(result1, ", "))
 
-	result2, err := kitClient.GetEntries(testData2)
+log.Println("Matt")
+	_, err = kitClient.GetEntries(testData2)
 	if err != nil {
-		logger.Log("err", err)
+        fmt.Println(err)
 	}
-	logger.Log("entries", strings.Join(result2, ", "))
-	// ll.Println(b)
 
 	// Deregister first instance of test data
 	registrar.Deregister()
@@ -89,7 +75,7 @@ func main() {
 	// Verify test data no longer exists in etcd
 	_, err = kitClient.GetEntries(testData)
 	if err != nil {
-		logger.Log("err", err)
+		fmt.Println(err)
 	}
 
 	// Deregister second instance of test data
@@ -98,13 +84,6 @@ func main() {
 	// Verify test data no longer exists in etcd
 	_, err = kitClient.GetEntries(testData2)
 	if err != nil {
-		logger.Log("err", err)
+		fmt.Println(err)
 	}
-
 }
-
-// Example Output
-// ts=2016-07-10T19:22:57Z caller=main.go:76 entries=bar1
-// ts=2016-07-10T19:22:57Z caller=main.go:81 entries="unsupported value type"
-// ts=2016-07-10T19:22:57Z caller=main.go:90 err="100: Key not found (/foo8197187502305182722) [57]"
-// ts=2016-07-10T19:22:57Z caller=main.go:99 err="100: Key not found (/foo8197187502305182722) [57]"
