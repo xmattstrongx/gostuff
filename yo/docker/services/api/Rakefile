@@ -1,0 +1,11 @@
+require 'rake'
+
+task :default, [:project_root, :build_dir] do |t, args|
+  app_dir = File.join(args[:project_root], "api/")
+  out_dir = args[:build_dir]
+  Dir.chdir(app_dir) do
+    ENV["GOOS"] = "linux"
+    sh "godep go build -o #{out_dir}/generic"
+    sh "cp config.json #{out_dir}"
+  end
+end

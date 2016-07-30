@@ -1,0 +1,7 @@
+require 'fileutils'
+require 'rake/clean'
+require 'pathname'
+Rake.load_rakefile 'docker/docker.rake'
+
+
+task :default => ["docker:build"]

@@ -1,0 +1,34 @@
+{
+	"ImportPath": "ultimatesoftware.com/hello",
+	"GoVersion": "go1.5",
+	"GodepVersion": "v63",
+	"Packages": [
+		"./api"
+	],
+	"Deps": [
+		{
+			"ImportPath": "goji.io",
+			"Comment": "v1.0-6-g0a07145",
+			"Rev": "0a0714568ced6c2f0138934b12029bcc2c52b993"
+		},
+		{
+			"ImportPath": "goji.io/internal",
+			"Comment": "v1.0-6-g0a07145",
+			"Rev": "0a0714568ced6c2f0138934b12029bcc2c52b993"
+		},
+		{
+			"ImportPath": "goji.io/pat",
+			"Comment": "v1.0-6-g0a07145",
+			"Rev": "0a0714568ced6c2f0138934b12029bcc2c52b993"
+		},
+		{
+			"ImportPath": "goji.io/pattern",
+			"Comment": "v1.0-6-g0a07145",
+			"Rev": "0a0714568ced6c2f0138934b12029bcc2c52b993"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "7e42c0e1329bb108f7376a7618a2871ab90f1c4d"
+		}
+	]
+}
