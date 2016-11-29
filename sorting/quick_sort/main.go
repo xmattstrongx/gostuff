@@ -7,13 +7,14 @@ import (
 
 func main() {
 	numberList := []int{6, 5, 1, 3, 8, 4, 7, 9, 2}
+	fmt.Println(numberList)
 
-	a := quicksort(numberList)
-	fmt.Println(a)
+	orderedNumberList := quickSort(numberList)
+	fmt.Println(orderedNumberList)
 
 }
 
-func quicksort(numberList []int) []int {
+func quickSort(numberList []int) []int {
 	if len(numberList) < 2 {
 		return numberList
 	}
@@ -30,8 +31,8 @@ func quicksort(numberList []int) []int {
 
 	numberList[wall], numberList[end] = numberList[end], numberList[wall]
 
-	quicksort(numberList[:wall])
-	quicksort(numberList[wall+1:])
+	quickSort(numberList[:wall])
+	quickSort(numberList[wall+1:])
 
 	return numberList
 }
