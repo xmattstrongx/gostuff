@@ -17,7 +17,6 @@ func bubbleSort(numberList []int) []int {
 	for i := end; i >= 1; i-- {
 		for j := 0; j < i-1; j++ {
 			if numberList[j] > numberList[j+1] {
-				// swap(numberList[j] > numberList[j+1])
 				numberList[j], numberList[j+1] = numberList[j+1], numberList[j]
 			}
 		}
