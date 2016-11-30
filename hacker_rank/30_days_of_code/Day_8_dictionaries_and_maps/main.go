@@ -7,7 +7,7 @@ func main() {
 	fmt.Scanf("%d", &size)
 
 	phoneBook := readInPhoneBookData(size)
-	names := getDataToExamine(size)
+	names := getDataToExamine()
 
 	for _, name := range names {
 		if _, ok := phoneBook[name]; ok {
@@ -34,11 +34,15 @@ func readInPhoneBookData(size int64) map[string]int64 {
 	return phoneBook
 }
 
-func getDataToExamine(size int64) []string {
-	var i int64
-	names := make([]string, size)
-	for i = 0; i < size; i++ {
-		fmt.Scanf("%s", &names[i])
+func getDataToExamine() []string {
+	var name string
+	names := []string{}
+	for {
+		_, err := fmt.Scanf("%s", &name)
+		if err != nil {
+			break
+		}
+		names = append(names, name)
 	}
 	return names
 }
