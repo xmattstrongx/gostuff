@@ -7,12 +7,14 @@ import (
 
 func main() {
 	message := make(chan string) // no buffer
+	// message := make(chan string, 2) // buffered channel
 	count := 3
 
 	go func() {
 		for i := 0; i < count; i++ {
-			fmt.Println("send message")
+			fmt.Println("send message start")
 			message <- fmt.Sprintf("message %d", i)
+			fmt.Println("send message end")
 		}
 	}()
 
