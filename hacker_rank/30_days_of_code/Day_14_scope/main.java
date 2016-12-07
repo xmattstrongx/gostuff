@@ -33,7 +33,7 @@ public void computeDifference() {
     }
     maximumDifference =  Math.abs(max - least);
     }
-    } // End of Difference class
+} // End of Difference class
 
 public class Solution {
 
