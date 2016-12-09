@@ -9,11 +9,11 @@ public class Solution {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String S = in.next();
-        try { 
-        int a = Integer.parseInt(S);
-        System.out.println(a);
-        } catch (Exception ex) {
+        try {
+           int newa = Integer.parseInt(S);
+            System.out.println(newa);
+        } catch (NumberFormatException e) {
             System.out.println("Bad String");
+            }
         }
-    }
 }
