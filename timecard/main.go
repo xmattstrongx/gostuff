@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -13,9 +12,7 @@ var (
 func main() {
 	http.HandleFunc("/api/timeCards", timecards)
 
-	log.Println("Before listening")
-	http.ListenAndServe(":8030", nil)
-	log.Println("After listening")
+	http.ListenAndServe(":8080", nil)
 }
 
 type TimeCardEntry struct {
