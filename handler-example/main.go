@@ -25,6 +25,6 @@ func main() {
 	mux.Handle("/time/rfc3339", th3339)
 
 	log.Println("listening...")
-	http.ListenAndServe(":3000", mux)
+	http.ListenAndServe(":8080", mux)
 
 }
