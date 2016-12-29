@@ -7,7 +7,6 @@ import (
 
 func main() {
 	message := make(chan string) // no buffer
-	// message := make(chan string, 2) // buffered channel
 	count := 3
 
 	go func() {
