@@ -26,11 +26,16 @@ func Mul(a, b float64) float64 {
 	return a * b
 }
 
+func Div(a, b float64) float64 {
+	return a / b
+}
+
 func main() {
 	var c Calculator
 	fmt.Println(c.Do(Add, 5))
 	fmt.Println(c.Do(Sub, 3))
 	fmt.Println(c.Do(Mul, 8))
+	fmt.Println(c.Do(Div, 2))
 
 	var c2 Calculator
 	fmt.Println(c2.Do(Add, 16))
