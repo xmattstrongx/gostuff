@@ -21,138 +21,80 @@ type grid3x3 struct {
 }
 
 func newBoard() *board {
-	return &board{
-		make([]row, 0),
-		make([]column, 0),
-		make([]grid3x3, 0),
+	rows := make([]row, 9)
+	for i := range rows {
+		rows[i].values = make(map[string]int)
 	}
-}
-
-func newRow() *row {
-	valueMap := make(map[string]int)
-	return &row{valueMap}
-}
-
-func newColumn() *column {
-	valueMap := make(map[string]int)
-	return &column{valueMap}
-}
-
-func newGrid3x3() *grid3x3 {
-	valueMap := make(map[string]int)
-	return &grid3x3{valueMap}
+	columns := make([]column, 9)
+	for i := range columns {
+		columns[i].values = make(map[string]int)
+	}
+	grid3x3s := make([]grid3x3, 9)
+	for i := range grid3x3s {
+		grid3x3s[i].values = make(map[string]int)
+	}
+	return &board{
+		rows,
+		columns,
+		grid3x3s,
+	}
 }
 
 func sudoku2(grid [][]string) bool {
-	// cells := getCells(grid)
-	// var rows []row
-	// var columns []column
-	// var grid3x3s []grid3x3
+	return validate(grid, newBoard())
+}
 
-	board := newBoard()
-
-	rowMap := make(map[int]map[string]int)
-	columnMap := make(map[int]map[string]int)
-	gridMap := make(map[int]map[string]int)
-
-	for _, currentRow := range grid {
-		for j, val := range currentRow {
-			if val != "." {
-				valMap := map[string]int{
-					val: 1,
-				}
-				if _, exists := board.columns[j].values[val]; exists {
+func validate(grid [][]string, b *board) bool {
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if grid[i][j] != "." {
+				if _, exists := b.columns[j].values[grid[i][j]]; exists {
+					fmt.Printf("(%d,%d) = %s. THIS ALREADY EXISTS IN COLUMN %d. GAME OVER \n", i, j, grid[i][j], j)
 					return false
 				}
-				board.columns = append(board.columns, board.columns[j])
-				fmt.Println(board.columns)
-				// board.columns[j].values = valMap
-				// columnMap[j][val]++
+				b.columns[j].values[grid[i][j]] = 1
 
-				// currentGrid3x3 := calculateGrid(i, j)
-				// gridMap[currentGrid3x3][val]++
-				// rows = append(rows, row{values: })
-				// columns = append(columns, column{j, val})
-				// cells = append(cells, cell{
-				// 	row:    i,
-				// 	val: j,
-				// 	grid:   calculateGrid(i, j),
-				// 	value:  val,
+				if _, exists := b.rows[i].values[grid[i][j]]; exists {
+					fmt.Printf("(%d,%d) = %s. THIS ALREADY EXISTS IN ROW %d. GAME OVER \n", i, j, grid[i][j], i)
+					return false
+				}
+				b.rows[i].values[grid[i][j]] = 1
 
-				// fmt.Printf("cells: %v", cells)
+				currentGrid3x3 := calculateGrid(i, j)
+				if _, exists := b.grid3x3s[currentGrid3x3].values[grid[i][j]]; exists {
+					fmt.Printf("(%d,%d) = %s. THIS ALREADY EXISTS IN GRID %d. GAME OVER \n", i, j, grid[i][j], currentGrid3x3)
+					return false
+				}
+				b.grid3x3s[currentGrid3x3].values[grid[i][j]] = 1
 			}
-			// fmt.Printf("val %d: %s\n", j, val)
 		}
 	}
-	fmt.Printf("Entire DSC: %v\n", rowMap)
-	fmt.Printf("Entire DSC: %v\n", columnMap)
-	fmt.Printf("Entire DSC: %v\n", gridMap)
-
-	return false
+	return true
 }
 
 func calculateGrid(i, j int) int {
 	var grid int
 	if i >= 0 && i <= 2 && j >= 0 && j <= 2 {
-		grid = 1
+		grid = 0
 	} else if i >= 0 && i <= 2 && j >= 3 && j <= 5 {
-		grid = 2
+		grid = 1
 	} else if i >= 0 && i <= 2 && j >= 6 && j <= 8 {
-		grid = 3
+		grid = 2
 	} else if i >= 3 && i <= 5 && j >= 0 && j <= 2 {
-		grid = 4
+		grid = 3
 	} else if i >= 3 && i <= 5 && j >= 3 && j <= 5 {
-		grid = 5
+		grid = 4
 	} else if i >= 3 && i <= 5 && j >= 6 && j <= 8 {
-		grid = 6
+		grid = 5
 	} else if i >= 6 && i <= 8 && j >= 0 && j <= 2 {
-		grid = 7
+		grid = 6
 	} else if i >= 6 && i <= 8 && j >= 3 && j <= 5 {
-		grid = 8
+		grid = 7
 	} else if i >= 6 && i <= 8 && j >= 6 && j <= 8 {
-		grid = 9
+		grid = 8
 	}
 	return grid
 }
-
-// func sudoku2(grid [][]string) bool {
-// 	for i := 0; i < 9; i++ {
-// 		existing := make(map[string]int)
-// 		// existing := make(map[string]map[string]int)
-// 		for j := 0; j < 9; j++ {
-// 			//check all
-// 			if grid[i][j] != "." {
-// 				if val, exists := existing[grid[i][j]]; exists && val > 1 {
-// 					return false
-// 				}
-// 				existing[grid[i][j]]++
-// 				fmt.Printf("(%d,%d) = %s ... %v\n", i, j, grid[i][j], existing)
-// 			} else {
-// 				fmt.Printf("(%d,%d) = %s\n", i, j, grid[i][j])
-// 			}
-// 		}
-// 		fmt.Print("NEXT\n")
-// 	}
-
-// 	for j := 0; j < 9; j++ {
-// 		existing := make(map[string]int)
-// 		for i := 0; i < 9; i++ {
-// 			//check all
-// 			if grid[i][j] != "." {
-// 				if val, exists := existing[grid[i][j]]; exists && val > 1 {
-// 					return false
-// 				}
-// 				existing[grid[i][j]]++
-// 				fmt.Printf("(%d,%d) = %s ... %v\n", i, j, grid[i][j], existing)
-// 			} else {
-// 				fmt.Printf("(%d,%d) = %s\n", i, j, grid[i][j])
-// 			}
-// 		}
-// 		fmt.Print("NEXT\n")
-// 	}
-
-// 	return true
-// }
 
 // 2 dimensional array reminder
 
