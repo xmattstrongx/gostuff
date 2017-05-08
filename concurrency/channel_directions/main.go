@@ -35,7 +35,7 @@ func printer(c <-chan string) {
 }
 
 func main() {
-	var c chan string = make(chan string)
+	c := make(chan string)
 
 	go pinger(c)
 	go ponger(c)
