@@ -42,4 +42,7 @@ func handleConn(c net.Conn) {
 // 20:50:20
 // 20:50:21
 
+
+// killall clock1
+
 // note this does not stop the app on the port. Have to kill the PID
