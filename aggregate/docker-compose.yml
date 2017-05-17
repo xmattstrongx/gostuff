@@ -1,6 +1,0 @@
-version: '2'
-services:
-  aggregate:
-    image: aggregate
-    ports:
-      - "8003:8003"
