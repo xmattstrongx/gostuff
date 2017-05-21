@@ -21,6 +21,11 @@ func fanIn(input1, input2 <-chan string) <-chan string {
 	go func() {
 		for {
 			c <- <-input1
+			/* The line above is equivalent to both of the two lines below
+			the first <- reads the string from the passed in chan.
+			the second <- sends the string over the chan string made in this func
+			firstString := <-input1
+			c <- firstString */
 		}
 	}()
 	go func() {
