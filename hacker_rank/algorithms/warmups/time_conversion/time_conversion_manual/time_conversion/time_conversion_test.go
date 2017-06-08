@@ -12,7 +12,7 @@ func BenchmarkConvertTime(b *testing.B) {
 	}
 }
 
-func TimeParseHappyPath(t *testing.T) {
+func TestTimeParseHappyPath(t *testing.T) {
 	if have, want := ConvertTime("07:05:45PM"), "19:05:45"; have != want {
 		t.Errorf("expected %s but have %s", want, have)
 	}
